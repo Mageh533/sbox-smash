@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-public abstract partial class Playing : BaseRound
+public class Playing : BaseRound
 {
-	public override int RoundDuration => 500;
+	public override int RoundDuration => 20;
 	public override string RoundName => "Playing";
 
 	public override void OnPlayerSpawn( Player player ) { }
@@ -28,7 +28,7 @@ public abstract partial class Playing : BaseRound
 		base.OnSecond();
 	}
 	protected override void OnTimeUp() 
-	{ 
-
+	{
+		Log.Info( "Playing is done" );
 	}
 }

@@ -6,11 +6,6 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-//
-// You don't need to put things in a namespace, but it doesn't hurt.
-//
-namespace SmashPlayerino
-{
 	[Library( "smash", Title = "Smash" )]
 	public partial class Game : Sandbox.Game
 	{
@@ -48,7 +43,7 @@ namespace SmashPlayerino
 			client.Pawn = player;
 
 			player.Respawn();
-		}
+	}
 
 		//Round System
 		public override void PostLevelLoaded()
@@ -85,7 +80,8 @@ namespace SmashPlayerino
 		private void OnSecond()
 		{
 			Round?.OnSecond();
-		}
+			ChangeRound( new Preparing() );
+	}
 		private void OnTick()
 		{
 			Round?.OnTick();
@@ -99,5 +95,3 @@ namespace SmashPlayerino
 			base.OnKilled( ent );
 		}
 	}
-
-}

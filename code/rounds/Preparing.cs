@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-public abstract partial class Prep : BaseRound
+public class Preparing : BaseRound
 {
-	public override int RoundDuration => 5;
+	public override int RoundDuration => 10;
 	public override string RoundName => "Preparing";
 	public int numberOfPlayers;
 
@@ -37,6 +37,8 @@ public abstract partial class Prep : BaseRound
 
 	protected override void OnTimeUp() 
 	{
+		Game.Instance.ChangeRound( new Playing() );
+		Log.Info( "Preparing is done" );
 		base.OnTimeUp();
 	}
 }

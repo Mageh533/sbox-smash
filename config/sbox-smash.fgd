@@ -1,5 +1,5 @@
 // 
-// SmashPlayerino.Game : Sandbox.Game 
+// Game : Sandbox.Game 
 // 
 @PointClass = smash : ""
 [
