@@ -1,8 +1,9 @@
-﻿
-using Sandbox;
+﻿using Sandbox;
 using Sandbox.UI.Construct;
 using System;
 using System.IO;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 //
@@ -10,27 +11,23 @@ using System.Threading.Tasks;
 //
 namespace SmashPlayerino
 {
-
-	/// <summary>
-	/// This is your game class. This is an entity that is created serverside when
-	/// the game starts, and is replicated to the client. 
-	/// 
-	/// You can use this to create things like HUDs and declare which player class
-	/// to use for spawned players.
-	/// </summary>
 	[Library( "smash", Title = "Smash" )]
 	public partial class Game : Sandbox.Game
 	{
+		[Net] public BaseRound Round { get; private set; }
+
+		[Net] public bool RespawnEnabled { get; set; } = true;
+
+		public static Game Instance
+		{
+			get => Current as Game;
+		}
 		public Game()
 		{
 			if ( IsServer )
 			{
 				Log.Info( "My Gamemode Has Created Serverside!" );
 
-				// Create a HUD entity. This entity is globally networked
-				// and when it is created clientside it creates the actual
-				// UI panels. You don't have to create your HUD via an entity,
-				// this just feels like a nice neat way to do it.
 				new MinimalHudEntity();
 			}
 
@@ -51,6 +48,55 @@ namespace SmashPlayerino
 			client.Pawn = player;
 
 			player.Respawn();
+		}
+
+		//Round System
+		public override void PostLevelLoaded()
+		{
+			base.PostLevelLoaded();
+			_ = StartSecondTimer();
+		}
+
+		public async Task StartSecondTimer()
+		{
+			while ( true )
+			{
+				await Task.DelaySeconds( 1 );
+				OnSecond();
+			}
+		}
+
+		public async Task StartTickTimer()
+		{
+			while ( true )
+			{
+				await Task.NextPhysicsFrame();
+				OnTick();
+			}
+		}
+		public void ChangeRound( BaseRound round )
+		{
+			Assert.NotNull( round );
+
+			Round?.Finish();
+			Round = round;
+			Round?.Start();
+		}
+		private void OnSecond()
+		{
+			Round?.OnSecond();
+		}
+		private void OnTick()
+		{
+			Round?.OnTick();
+		}
+
+		public override void OnKilled( Entity ent )
+		{
+			if ( ent is Player player )
+				Round?.OnPlayerKilled( player );
+
+			base.OnKilled( ent );
 		}
 	}
 

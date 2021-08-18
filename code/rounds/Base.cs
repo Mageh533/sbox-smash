@@ -21,8 +21,6 @@ public abstract partial class BaseRound : NetworkComponent
 			return RoundEndTime - Sandbox.Time.Now;
 		}
 	}
-
-	// TODO: This can be done better by using a shared timestamp.
 	[Net] public string TimeLeftFormatted { get; set; }
 
 	public void Start()
