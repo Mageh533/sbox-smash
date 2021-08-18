@@ -3,6 +3,18 @@ using System;
 using System.Linq;
 public partial class SmashPlayer : Player
 {
+	[Net, Predicted] public ICamera MainCamera { get; set; }
+	public ICamera LastCamera { get; set; }
+	private DamageInfo lastDamage;
+
+	public override void Spawn()
+	{
+		MainCamera = new ThirdPersonCamera();
+		LastCamera = MainCamera;
+
+		base.Spawn();
+	}
+
 	public override void Respawn()
 	{
 		SetModel( "models/citizen/citizen.vmdl" );
@@ -20,7 +32,8 @@ public partial class SmashPlayer : Player
 		//
 		// Use ThirdPersonCamera (you can make your own Camera for 100% control)
 		//
-		Camera = new ThirdPersonCamera();
+		MainCamera = LastCamera;
+		Camera = MainCamera;
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;
@@ -49,6 +62,30 @@ public partial class SmashPlayer : Player
 	public override void OnKilled()
 	{
 		base.OnKilled();
+
+		BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force, GetHitboxBone( lastDamage.HitboxIndex ) );
+		LastCamera = MainCamera;
+		MainCamera = new SpectateRagdollCamera();
+		Camera = MainCamera;
+		Controller = null;
+
 		EnableDrawing = false;
+	}
+	public override void TakeDamage( DamageInfo info )
+	{
+		if ( GetHitboxGroup( info.HitboxIndex ) == 1 )
+		{
+			info.Damage *= 10.0f;
+		}
+
+		lastDamage = info;
+
+		TookDamage( lastDamage.Flags, lastDamage.Position, lastDamage.Force );
+
+		base.TakeDamage( info );
+	}
+	[ClientRpc]
+	public void TookDamage( DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
+	{
 	}
 }

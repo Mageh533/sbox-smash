@@ -5,7 +5,6 @@ using Sandbox.UI.Construct;
 public class RemainingPlayers : Panel
 {
 	public Label PlayersLabel;
-	private int alivePlayers;
 
 	public RemainingPlayers()
 	{

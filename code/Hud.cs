@@ -4,7 +4,7 @@ using Sandbox;
 //
 // You don't need to put things in a namespace, but it doesn't hurt.
 //
-namespace MinimalExample
+namespace SmashPlayerino
 {
 	/// <summary>
 	/// This is the HUD entity. It creates a RootPanel clientside, which can be accessed
@@ -16,7 +16,7 @@ namespace MinimalExample
 		{
 			if ( IsClient )
 			{
-				RootPanel.SetTemplate( "/hud.html" );
+				RootPanel.SetTemplate( "/Hud.html" );
 				RootPanel.StyleSheet.Load( "/Hud.scss" );
 				RootPanel.AddChild<Health>();
 				RootPanel.AddChild<RemainingPlayers>();
