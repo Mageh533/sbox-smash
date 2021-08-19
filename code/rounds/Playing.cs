@@ -26,9 +26,11 @@ public class Playing : BaseRound
 	public override void OnSecond()
 	{
 		base.OnSecond();
+		Log.Info( "Playing second" );
 	}
 	protected override void OnTimeUp() 
 	{
 		Log.Info( "Playing is done" );
+		Game.Instance.ChangeRound( new Preparing() );
 	}
 }

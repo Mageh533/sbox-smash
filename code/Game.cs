@@ -6,92 +6,96 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-	[Library( "smash", Title = "Smash" )]
-	public partial class Game : Sandbox.Game
+[Library( "smash", Title = "Smash" )]
+public partial class Game : Sandbox.Game
+{
+	[Net] public BaseRound Round { get; private set; }
+
+	[Net] public bool RespawnEnabled { get; set; } = true;
+
+	public static Game Instance
 	{
-		[Net] public BaseRound Round { get; private set; }
-
-		[Net] public bool RespawnEnabled { get; set; } = true;
-
-		public static Game Instance
+		get => Current as Game;
+	}
+	public Game()
+	{
+		if ( IsServer )
 		{
-			get => Current as Game;
-		}
-		public Game()
-		{
-			if ( IsServer )
-			{
-				Log.Info( "My Gamemode Has Created Serverside!" );
+			Log.Info( "My Gamemode Has Created Serverside!" );
 
-				new MinimalHudEntity();
-			}
-
-			if ( IsClient )
-			{
-				Log.Info( "My Gamemode Has Created Clientside!" );
-			}
+			new MinimalHudEntity();
 		}
 
-		/// <summary>
-		/// A client has joined the server. Make them a pawn to play with
-		/// </summary>
-		public override void ClientJoined( Client client )
+		if ( IsClient )
 		{
-			base.ClientJoined( client );
-
-			var player = new SmashPlayer();
-			client.Pawn = player;
-
-			player.Respawn();
+			Log.Info( "My Gamemode Has Created Clientside!" );
+		}
 	}
 
-		//Round System
-		public override void PostLevelLoaded()
-		{
-			base.PostLevelLoaded();
-			_ = StartSecondTimer();
-		}
+	public override void ClientJoined( Client client )
+	{
+		base.ClientJoined( client );
 
-		public async Task StartSecondTimer()
-		{
-			while ( true )
-			{
-				await Task.DelaySeconds( 1 );
-				OnSecond();
-			}
-		}
+		var player = new SmashPlayer();
+		client.Pawn = player;
 
-		public async Task StartTickTimer()
-		{
-			while ( true )
-			{
-				await Task.NextPhysicsFrame();
-				OnTick();
-			}
-		}
-		public void ChangeRound( BaseRound round )
-		{
-			Assert.NotNull( round );
+		player.Respawn();
+}
 
-			Round?.Finish();
-			Round = round;
-			Round?.Start();
-		}
-		private void OnSecond()
-		{
-			Round?.OnSecond();
-			ChangeRound( new Preparing() );
+	//Round System
+	public override void PostLevelLoaded()
+	{
+		base.PostLevelLoaded();
+		_ = StartSecondTimer();
 	}
-		private void OnTick()
-		{
-			Round?.OnTick();
-		}
 
-		public override void OnKilled( Entity ent )
+	public async Task StartSecondTimer()
+	{
+		while ( true )
 		{
-			if ( ent is Player player )
-				Round?.OnPlayerKilled( player );
-
-			base.OnKilled( ent );
+			await Task.DelaySeconds( 1 );
+			OnSecond();
 		}
 	}
+
+	public async Task StartTickTimer()
+	{
+		while ( true )
+		{
+			await Task.NextPhysicsFrame();
+			OnTick();
+		}
+	}
+	public void ChangeRound( BaseRound round )
+	{
+		Assert.NotNull( round );
+
+		Round?.Finish();
+		Round = round;
+		Round?.Start();
+	}
+	private void OnSecond()
+	{
+		Round?.OnSecond();
+		CheckMinimumPlayers();
+}
+	private void OnTick()
+	{
+		Round?.OnTick();
+	}
+
+	public override void OnKilled( Entity ent )
+	{
+		if ( ent is Player player )
+		Round?.OnPlayerKilled( player );
+
+		base.OnKilled( ent );
+	}
+
+	private void CheckMinimumPlayers()
+	{
+		if ( Client.All.Count >= 1 )
+			if ( Round == null )
+				ChangeRound( new Preparing() );
+	}
+}

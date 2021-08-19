@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 public class Preparing : BaseRound
 {
-	public override int RoundDuration => 10;
+	public override int RoundDuration { get; set; } = 5;
 	public override string RoundName => "Preparing";
 	public int numberOfPlayers;
 
@@ -25,13 +25,9 @@ public class Preparing : BaseRound
 		base.OnTick();
 	}
 
-	public override void OnSecond()
-	{
-		base.OnSecond();
-	}
-
 	protected override void OnStart() 
 	{
+		Log.Info( "Preparing round started" );
 		numberOfPlayers = Client.All.Count;
 	}
 
