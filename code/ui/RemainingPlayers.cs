@@ -5,14 +5,16 @@ using Sandbox.UI.Construct;
 public class RemainingPlayers : Panel
 {
 	public Label PlayersLabel;
+	private int alivePlayers;
 
 	public RemainingPlayers()
 	{
-		PlayersLabel = Add.Label( "1", "value" );
+		PlayersLabel = Add.Label( "?", "value" );
 	}
 
 	public override void Tick()
 	{
-		PlayersLabel.Text = $"Players Remaining: {Client.All.Count}";
+		alivePlayers = Playing.getNumberOfPlayers();
+		PlayersLabel.Text = $"Players Remaining: {alivePlayers}";
 	}
 }

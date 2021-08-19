@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 public class Playing : BaseRound
 {
-	public override int RoundDuration => 20;
+	public override int RoundDuration => 30;
 	public override string RoundName => "Playing";
+
+	private static int numberOfPlayers;
 
 	public override void OnPlayerSpawn( Player player ) { }
 
@@ -18,6 +20,11 @@ public class Playing : BaseRound
 		Players.Remove( player );
 	}
 
+	protected override void OnStart() 
+	{
+		Log.Info( "Playing started" );
+		numberOfPlayers = Client.All.Count;
+	}
 	public override void OnTick() 
 	{
 		base.OnTick();
@@ -26,11 +33,15 @@ public class Playing : BaseRound
 	public override void OnSecond()
 	{
 		base.OnSecond();
-		Log.Info( "Playing second" );
 	}
 	protected override void OnTimeUp() 
 	{
 		Log.Info( "Playing is done" );
 		Game.Instance.ChangeRound( new Preparing() );
+	}
+
+	public static int getNumberOfPlayers()
+	{
+		return numberOfPlayers;
 	}
 }

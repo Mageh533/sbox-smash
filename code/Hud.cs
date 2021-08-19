@@ -1,16 +1,17 @@
 ﻿using Sandbox.UI;
 using Sandbox;
 
-	public partial class MinimalHudEntity : Sandbox.HudEntity<RootPanel>
+public partial class MinimalHudEntity : Sandbox.HudEntity<RootPanel>
+{
+	public MinimalHudEntity()
 	{
-		public MinimalHudEntity()
+		if ( IsClient )
 		{
-			if ( IsClient )
-			{
-				RootPanel.SetTemplate( "/Hud.html" );
-				RootPanel.StyleSheet.Load( "/Hud.scss" );
-				RootPanel.AddChild<Health>();
-				RootPanel.AddChild<RemainingPlayers>();
-			}
+			RootPanel.SetTemplate( "/Hud.html" );
+			RootPanel.StyleSheet.Load( "/Hud.scss" );
+			RootPanel.AddChild<Health>();
+			RootPanel.AddChild<RemainingPlayers>();
+			RootPanel.AddChild<RoundTimer>();
 		}
 	}
+}
