@@ -12,7 +12,6 @@ public partial class MinimalHudEntity : Sandbox.HudEntity<RootPanel>
 			RootPanel.AddChild<Health>();
 			RootPanel.AddChild<RemainingPlayers>();
 			RootPanel.AddChild<RoundTimer>();
-			RootPanel.AddChild<CurrentRound>();
 		}
 	}
 }
