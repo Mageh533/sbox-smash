@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 public class Playing : BaseRound
 {
 	public override int RoundDuration => 30;
-	public override string RoundName => "Survive";
+	public override string RoundName => "Playing";
 
 	private static int numberOfPlayers;
 

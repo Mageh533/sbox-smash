@@ -2,7 +2,7 @@ Health {
     position: absolute;
     background-color: rgba( black, 0.3 );
     border-radius: 3px;
-    left: 50px;
+    right: 1800px;
     bottom: 60px;
     font-size: 40px;
     font-weight: bold;
@@ -10,6 +10,11 @@ Health {
     height: 80px;
     padding: 0 20px;
     align-items: center;
+
+    .icon {
+        font-size: 30px;
+        padding-right: 10px;
+    }
 }
 
 RemainingPlayers {
@@ -27,27 +32,29 @@ RemainingPlayers {
 }
 
 RoundTimer {
-	position: absolute;
-	bottom: 80px;
-	left: 40px;
-	font-size: 70px;
-	color: #fff;
-	font-family: Roboto;
+    position: absolute;
+    background-color: rgba( black, 0.0 );
+    border-radius: 3px;
+    right: 920px;
+    bottom: 920px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    height: 80px;
+    padding: 0 20px;
+    align-items: center;
+}
 
-    	label {
-		color: rgb(214, 61, 112);
-		text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.877);
-
-		&.timer
-		{
-			color: #fff;
-		}
-
-		&.round
-		{
-			font-size: 55px;
-			top: 15px;
-			left: 15px;
-		}
-	}
+CurrentRound {
+    position: absolute;
+    background-color: rgba( black, 0.0 );
+    border-radius: 3px;
+    right: 880px;
+    bottom: 1000px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    height: 80px;
+    padding: 0 20px;
+    align-items: center;
 }
