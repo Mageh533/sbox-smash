@@ -1,7 +1,7 @@
 using Sandbox;
 using System;
 using System.Linq;
-partial class SmashPlayer
+partial class Player
 {
 	public ModelEntity pants;
 	public ModelEntity jacket;

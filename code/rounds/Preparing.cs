@@ -26,6 +26,7 @@ public class Preparing : BaseRound
 
 	protected override void OnStart() 
 	{
+		Game.Instance.RespawnEnabled = true;
 		Log.Info( "Preparing round started" );
 	}
 

@@ -7,13 +7,29 @@ using System.Threading.Tasks;
 public class Playing : BaseRound
 {
 	public override int RoundDuration => 30;
-	public override string RoundName => "Playing";
+	public override string RoundName => "Survive!";
 
 	private static int numberOfPlayers;
 
-	public override void OnPlayerSpawn( Player player ) { }
+	public override void OnPlayerSpawn( Player player ) 
+	{
+		if ( Players.Contains( player ) )
+			Players.Remove( player );
 
-	public override void OnPlayerKilled( Player player ) { }
+		player.MakeSpectator();
+
+		base.OnPlayerSpawn( player );
+	}
+
+	public override void OnPlayerKilled( Player player ) 
+	{
+		if ( Players.Contains( player ) )
+			Players.Remove( player );
+
+		player.MakeSpectator();
+
+		base.OnPlayerSpawn( player );
+	}
 
 	public override void OnPlayerLeave( Player player )
 	{
@@ -23,6 +39,7 @@ public class Playing : BaseRound
 	protected override void OnStart() 
 	{
 		Log.Info( "Playing started" );
+		Game.Instance.RespawnEnabled = false;
 		numberOfPlayers = Client.All.Count;
 	}
 	public override void OnTick() 

@@ -36,7 +36,7 @@ public partial class Game : Sandbox.Game
 	{
 		base.ClientJoined( client );
 
-		var player = new SmashPlayer();
+		var player = new Player();
 		client.Pawn = player;
 
 		player.Respawn();

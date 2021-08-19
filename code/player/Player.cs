@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using System;
 using System.Linq;
-public partial class SmashPlayer : Player
+public partial class Player : Sandbox.Player
 {
 	[Net, Predicted] public ICamera MainCamera { get; set; }
 	public ICamera LastCamera { get; set; }
@@ -9,22 +9,21 @@ public partial class SmashPlayer : Player
 
 	public override void Spawn()
 	{
-		MainCamera = new ThirdPersonCamera();
-		LastCamera = MainCamera;
-
 		base.Spawn();
 	}
 
 	public override void Respawn()
 	{
+		if ( !Game.Instance.RespawnEnabled )
+			return;
+
 		SetModel( "models/citizen/citizen.vmdl" );
 
 		Controller = new WalkController();
 
 		Animator = new StandardPlayerAnimator();
 
-		MainCamera = LastCamera;
-		Camera = MainCamera;
+		Camera = new ThirdPersonCamera();
 
 		EnableAllCollisions = true;
 		EnableDrawing = true;
@@ -55,10 +54,6 @@ public partial class SmashPlayer : Player
 		base.OnKilled();
 
 		BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force, GetHitboxBone( lastDamage.HitboxIndex ) );
-		LastCamera = MainCamera;
-		MainCamera = new SpectateRagdollCamera();
-		Camera = MainCamera;
-		Controller = null;
 
 		EnableDrawing = false;
 	}
@@ -78,5 +73,14 @@ public partial class SmashPlayer : Player
 	[ClientRpc]
 	public void TookDamage( DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
 	{
+	}
+
+	//Spectator code for when death occurs
+	public void MakeSpectator()
+	{
+		EnableAllCollisions = false;
+		EnableDrawing = false;
+		Controller = null;
+		Camera = new DevCamera();
 	}
 }
