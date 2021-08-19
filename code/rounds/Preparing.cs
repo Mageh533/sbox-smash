@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 public class Preparing : BaseRound
 {
 	public override int RoundDuration { get; set; } = 15;
-	public override string RoundName => "Preparing";
+	public override string RoundName => "Waiting For Players";
 
 	public override void OnPlayerSpawn( Player player ) 
 	{

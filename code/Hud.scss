@@ -1,8 +1,8 @@
 Health {
     position: absolute;
-    background-color: rgba( black, 0.5 );
+    background-color: rgba( black, 0.3 );
     border-radius: 3px;
-    right: 1700px;
+    right: 1800px;
     bottom: 60px;
     font-size: 40px;
     font-weight: bold;
@@ -19,7 +19,7 @@ Health {
 
 RemainingPlayers {
     position: absolute;
-    background-color: rgba( black, 0.5 );
+    background-color: rgba( black, 0.3 );
     border-radius: 3px;
     right: 100px;
     bottom: 60px;
@@ -33,10 +33,24 @@ RemainingPlayers {
 
 RoundTimer {
     position: absolute;
-    background-color: rgba( black, 0.5 );
+    background-color: rgba( black, 0.0 );
     border-radius: 3px;
-    right: 100px;
-    bottom: 30px;
+    right: 920px;
+    bottom: 920px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    height: 80px;
+    padding: 0 20px;
+    align-items: center;
+}
+
+CurrentRound {
+    position: absolute;
+    background-color: rgba( black, 0.0 );
+    border-radius: 3px;
+    right: 880px;
+    bottom: 1000px;
     font-size: 40px;
     font-weight: bold;
     color: white;

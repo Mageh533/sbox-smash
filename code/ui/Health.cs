@@ -16,6 +16,6 @@ public class Health : Panel
 		var player = Local.Pawn;
 		if ( player == null ) return;
 
-		Label.Text = $"{player.Health:n0}";
+		Label.Text = $"HP {player.Health:n0}";
 	}
 }

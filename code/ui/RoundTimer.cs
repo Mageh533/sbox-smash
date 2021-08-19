@@ -5,7 +5,7 @@ using Sandbox.UI.Construct;
 public class RoundTimer : Panel
 {
 	public Label TimerLabel;
-	private int time;
+	private string time;
 
 	public RoundTimer()
 	{
@@ -14,6 +14,7 @@ public class RoundTimer : Panel
 
 	public override void Tick()
 	{
+		time = Game.Instance.Round.TimeLeftFormatted;
 		TimerLabel.Text = $"Time left: {time}";
 	}
 }
